@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     private int currentLane = 1;
     private Vector3 targetPosition;
 
+    private bool isAlive = true;
+    public float MoveSpeed => moveSpeed;
+
     private void Start()
     {
         targetPosition = transform.position;
@@ -16,6 +19,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!isAlive) return;
+
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -46,6 +51,14 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        GameManager.Instance.GameOver();
+        isAlive = false;
+
+        GameManager.Instance.OnPlayerDied();
+        //GameManager.Instance.GameOver();
+    }
+
+    public void IncreaseSpeed(float amount)
+    {
+        moveSpeed += amount;
     }
 }

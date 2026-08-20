@@ -13,12 +13,13 @@ public class Obstacle : MonoBehaviour, IObstable
     {
         if (other.TryGetComponent(out Player player))
         {
-            Debug.Log($"Va vao {transform.name}");
+            OnHitPlayer(player);
         }
     }
 
     public void OnHitPlayer(Player player)
     {
-        
+        Debug.Log($"Va vao {transform.name}");
+        player.Die();
     }
 }
