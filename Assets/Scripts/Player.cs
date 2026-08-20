@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private float laneDistance = 3f;
@@ -42,7 +42,10 @@ public class PlayerMovement : MonoBehaviour
         currentLane = targetLane;
 
         targetPosition.x = (currentLane - 1) * laneDistance;
+    }
 
-        Debug.Log($"Dang o Lane: {currentLane}");
+    public void Die()
+    {
+        GameManager.Instance.GameOver();
     }
 }
