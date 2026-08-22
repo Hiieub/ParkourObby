@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour, IObstable
+public class Obstacle : MonoBehaviour, IObstacle
 {
     [SerializeField] private float rotateSpeed = 90f;
 

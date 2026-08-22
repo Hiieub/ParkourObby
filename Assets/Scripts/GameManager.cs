@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     private float timer;
     private bool isGameOver = false;
 
+    private Player player;
+
     private void Awake()
     {
         Instance = this;
@@ -19,19 +21,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        player = FindAnyObjectByType<Player>();
+
         timer = increaseSpeedInterval;
         Time.timeScale = 1f;
     }
 
     private void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.R)) Restart();
+            return;
+        }
 
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            Player player = FindAnyObjectByType<Player>();
-
             player.IncreaseSpeed(increaseSpeedAmount);
 
             timer = increaseSpeedInterval;
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
+        if (isGameOver) return;
         score += amount;
         Debug.Log($"Score: {score}");
     }
@@ -57,6 +64,8 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDied()
     {
         GameOver();
+
+        HighScoreManager.Instance.AddScore(score);
     }
 
     public void Restart()

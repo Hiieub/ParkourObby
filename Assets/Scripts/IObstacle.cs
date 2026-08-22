@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IObstable
+public interface IObstacle
 {
     public void OnHitPlayer(Player player);
 }

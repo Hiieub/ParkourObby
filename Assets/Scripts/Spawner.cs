@@ -9,6 +9,12 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 1.5f;
     [SerializeField] private float spawnDistance = 30f;
 
+    [SerializeField] private float baseObstacleChance = 0.6f;
+    [SerializeField] private float maxObstacleChance = 0.85f;
+    [SerializeField] private float difficulyRampTime = 60f;
+
+    private float elapsedTime;
+
     private float[] lanePositions = { -3f, 0f, 3f };
 
     private float timer;
@@ -18,6 +24,8 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        elapsedTime += Time.deltaTime;
+
         player = FindAnyObjectByType<Player>().transform;
         timer = spawnInterval;
     }
@@ -42,7 +50,10 @@ public class Spawner : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(xPos, 0.5f, player.position.z + spawnDistance);
 
-        GameObject prefab = Random.value < 0.7f ? obstaclePrefab : coinPrefab;
+        float t = Mathf.Clamp01(elapsedTime / difficulyRampTime);
+        float currentObstacleChance = Mathf.Lerp(baseObstacleChance, maxObstacleChance, t);
+
+        GameObject prefab = Random.value < currentObstacleChance ? obstaclePrefab : coinPrefab;
 
         GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
 
