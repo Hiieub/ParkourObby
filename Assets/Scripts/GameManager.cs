@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private float timer;
     private bool isGameOver = false;
+    private bool hasStarted = false;
 
     private Player player;
+
+    public bool HasStarted => hasStarted;
 
     private void Awake()
     {
@@ -24,16 +27,31 @@ public class GameManager : MonoBehaviour
         player = FindAnyObjectByType<Player>();
 
         timer = increaseSpeedInterval;
+        Time.timeScale = 0f;
+
+        UIManager.Instance.OnPlayClicked += UIManager_OnPlayClicked;
+        UIManager.Instance.OnRestartClicked += UIManager_OnRestartClicked;
+    }
+
+    private void UIManager_OnRestartClicked(object sender, System.EventArgs e)
+    {
+        Restart();
+    }
+
+    private void UIManager_OnPlayClicked(object sender, System.EventArgs e)
+    {
+        StartGame();
+    }
+
+    public void StartGame()
+    {
+        hasStarted = true;
         Time.timeScale = 1f;
     }
 
     private void Update()
     {
-        if (isGameOver)
-        {
-            if (Input.GetKeyDown(KeyCode.R)) Restart();
-            return;
-        }
+        if (isGameOver || !hasStarted) return;
 
         timer -= Time.deltaTime;
         if (timer <= 0)
@@ -48,6 +66,9 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver) return;
         score += amount;
+
+        UIManager.Instance.UpdateScore(score);
+
         Debug.Log($"Score: {score}");
     }
 
@@ -66,6 +87,7 @@ public class GameManager : MonoBehaviour
         GameOver();
 
         HighScoreManager.Instance.AddScore(score);
+        UIManager.Instance.ShowGameOverPanel(score, HighScoreManager.Instance.GetHighScore());
     }
 
     public void Restart()

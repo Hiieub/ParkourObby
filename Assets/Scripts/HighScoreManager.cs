@@ -38,4 +38,9 @@ public class HighScoreManager : MonoBehaviour
             Debug.Log($"Diem {score} cua ban xep hang {rank}");
         }
     }
+
+    public int GetHighScore()
+    {
+        return highScores.Count > 0 ? highScores[0] : 0;
+    }
 }

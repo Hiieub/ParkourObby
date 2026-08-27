@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private float laneDistance = 3f;
     [SerializeField] private float laneChangeSpeed = 10f;
+    [SerializeField] private float swipeThreshold = 50f;
 
     private int currentLane = 1;
     private Vector3 targetPosition;
+
+    private Vector2 touchStartPos;
+    private bool isSwiping;
 
     private bool isAlive = true;
     public float MoveSpeed => moveSpeed;
@@ -19,10 +24,20 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (!isAlive) return;
+        if (!isAlive || !GameManager.Instance.HasStarted) return;
 
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 
+        HandleKeyboardInput();
+        HandleTouchInput();
+
+        Vector3 newPosition = transform.position;
+        newPosition.x = Mathf.Lerp(transform.position.x, targetPosition.x, laneChangeSpeed * Time.deltaTime);
+        transform.position = newPosition;
+    }
+
+    private void HandleKeyboardInput()
+    {
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             MoveLane(-1);
@@ -32,10 +47,29 @@ public class Player : MonoBehaviour
         {
             MoveLane(1);
         }
+    }
 
-        Vector3 newPosition = transform.position;
-        newPosition.x = Mathf.Lerp(transform.position.x, targetPosition.x, laneChangeSpeed * Time.deltaTime);
-        transform.position = newPosition;
+    private void HandleTouchInput()
+    {
+        if (Input.touchCount == 0) return;
+        Touch touch = Input.GetTouch(0);
+
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                touchStartPos = touch.position;
+                isSwiping = true;
+                break;
+            case TouchPhase.Moved:
+                if (!isSwiping) return;
+                isSwiping = false;
+
+                float deltaX = touch.position.x - touchStartPos.x;
+                if (Mathf.Abs(deltaX) < swipeThreshold) return;
+                MoveLane(deltaX > 0 ? 1 : -1);
+
+                break;
+        }
     }
 
     private void MoveLane(int direction)

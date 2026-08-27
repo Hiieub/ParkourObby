@@ -1011,6 +1011,7 @@ MonoBehaviour:
   moveSpeed: 8
   laneDistance: 3
   laneChangeSpeed: 10
+  swipeThreshold: 50
 --- !u!136 &1681362732
 CapsuleCollider:
   m_ObjectHideFlags: 0
