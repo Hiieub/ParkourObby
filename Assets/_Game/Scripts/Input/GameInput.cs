@@ -20,13 +20,12 @@ public class GameInput : MonoBehaviour
         {
             Vector2 keyboardInput = inputActions.Player.Move.ReadValue<Vector2>();
 
-            if (joystick != null &&
-                joystick.Direction.sqrMagnitude > 0.01f)
+            if (joystick != null && joystick.Direction.sqrMagnitude > 0.01f)
             {
-                return joystick.Direction;
+                return joystick.Direction.normalized;
             }
 
-            return keyboardInput;
+            return keyboardInput.normalized;
         }
     }
 

@@ -1,4 +1,3 @@
-﻿using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -7,15 +6,25 @@ public class Player : MonoBehaviour
     private CharacterController controller;
     [SerializeField] private Transform mainCamera;
 
+    [Header("Movement")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
 
+    [Header("Jump & Gravity")]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpHeight = 3f;
-    private int maxJump = 2;
+    [SerializeField] private int maxJump = 2;
+    
+    [Header("Parkour Mechanics")]
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float jumpBufferTime = 0.2f;
+
     private int jumpCount;
     private Vector3 velocity;
+    
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
 
     private void Awake()
     {
@@ -24,12 +33,14 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-
         if (GameInput.Instance != null)
         {
-            GameInput.Instance.OnJumpEvent += PlayerJump;
+            GameInput.Instance.OnJumpEvent += OnJumpInput;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetCheckpoint(transform.position);
         }
     }
 
@@ -37,14 +48,14 @@ public class Player : MonoBehaviour
     {
         if (GameInput.Instance != null)
         {
-            GameInput.Instance.OnJumpEvent -= PlayerJump;
+            GameInput.Instance.OnJumpEvent -= OnJumpInput;
         }
     }
 
     private void Update()
     {
         MovePlayer();
-        ApplyGravity();
+        HandleJumpAndGravity();
     }
 
     private void MovePlayer()
@@ -52,15 +63,11 @@ public class Player : MonoBehaviour
         if (GameInput.Instance == null) return;
 
         Vector2 input = GameInput.Instance.MoveInput;
-
         Vector3 direction = new Vector3(input.x, 0f, input.y);
 
         if (direction.sqrMagnitude < 0.01f) return;
 
-        float targetAngle = Mathf.Atan2(
-            direction.x,
-            direction.z
-        ) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
+        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
 
         float angle = Mathf.SmoothDampAngle(
             transform.eulerAngles.y,
@@ -76,29 +83,49 @@ public class Player : MonoBehaviour
         controller.Move(moveDirection.normalized * speed * Time.deltaTime);
     }
 
-    private void ApplyGravity()
+    private void OnJumpInput()
+    {
+        jumpBufferCounter = jumpBufferTime;
+    }
+
+    private void HandleJumpAndGravity()
     {
         bool isGrounded = controller.isGrounded;
 
         if (isGrounded && velocity.y < 0f)
         {
+            coyoteTimeCounter = coyoteTime;
+            jumpCount = 0; 
             velocity.y = -2f;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
 
-            jumpCount = 0;
+        jumpBufferCounter -= Time.deltaTime;
+
+        if (jumpBufferCounter > 0f)
+        {
+            if (coyoteTimeCounter > 0f || jumpCount < maxJump)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+                if (coyoteTimeCounter > 0f)
+                {
+                    jumpCount = 1;
+                }
+                else
+                {
+                    jumpCount++;
+                }
+
+                jumpBufferCounter = 0f;
+                coyoteTimeCounter = 0f;
+            }
         }
 
         velocity.y += gravity * Time.deltaTime;
-
         controller.Move(velocity * Time.deltaTime);
-    }
-
-    private void PlayerJump()
-    {
-        if (jumpCount < maxJump)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-            jumpCount++;
-        }
     }
 }
