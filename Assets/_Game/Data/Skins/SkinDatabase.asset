@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc655f44b642b0742af4b83fd91ad77a, type: 3}
+  m_Name: SkinDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::SkinDatabaseSO
+  skins:
+  - skinId: 1
+    skinName: archer
+    price: 500
+    skinPrefab: {fileID: 5356770387849157541, guid: fb109ac74e42d844d8f16c8079084e98, type: 3}
+    icon: {fileID: 0}
+  - skinId: 2
+    skinName: archer broken
+    price: 1000
+    skinPrefab: {fileID: 1821001798029428790, guid: 59c0f2b41b11adb448f1a05040d8c5db, type: 3}
+    icon: {fileID: 0}
+  - skinId: 3
+    skinName: mage
+    price: 200
+    skinPrefab: {fileID: 717083673978778779, guid: 568dff7559055b748be4baf465b95ab4, type: 3}
+    icon: {fileID: 0}
+  - skinId: 4
+    skinName: mage broken
+    price: 300
+    skinPrefab: {fileID: 5576511140218234520, guid: 505f1d9e104bf114693ff37ce411b453, type: 3}
+    icon: {fileID: 0}
+  - skinId: 5
+    skinName: minion
+    price: 700
+    skinPrefab: {fileID: 7242262938553564678, guid: b57b382daeb300043832e87c822c38e8, type: 3}
+    icon: {fileID: 0}
+  - skinId: 6
+    skinName: minion broken
+    price: 900
+    skinPrefab: {fileID: 3290056953088025539, guid: 0a343e0abc023424aa04468ae1be328b, type: 3}
+    icon: {fileID: 0}
+  - skinId: 7
+    skinName: warrior
+    price: 2000
+    skinPrefab: {fileID: 5162429154573490720, guid: 7b8796f9aba956c48bd6257915ce5962, type: 3}
+    icon: {fileID: 0}
+  - skinId: 8
+    skinName: warrior broken
+    price: 3000
+    skinPrefab: {fileID: 1462264014541329453, guid: d042b32904cea9242afd7737a33c1045, type: 3}
+    icon: {fileID: 0}

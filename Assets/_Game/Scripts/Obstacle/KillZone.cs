@@ -6,7 +6,7 @@ public class KillZone : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            GameManager.Instance.ReSpawnPlayer(player);
+            GameManager.Instance?.ReSpawnPlayer(player);
         }
     }
 }

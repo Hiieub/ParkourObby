@@ -11,14 +11,35 @@ public class GameInput : MonoBehaviour
     [SerializeField] private Joystick joystick;
 
     [SerializeField] private Button btnJump;
+    [SerializeField] private Button btnSprint;
 
     public event Action OnJumpEvent;
+
+    private bool isSprintToggled = false;
+
+    public bool IsSprinting
+    {
+        get
+        {
+            bool keyboardSprint = false;
+            if (UnityEngine.InputSystem.Keyboard.current != null)
+            {
+                keyboardSprint = UnityEngine.InputSystem.Keyboard.current.leftShiftKey.isPressed ||
+                                 UnityEngine.InputSystem.Keyboard.current.rightShiftKey.isPressed;
+            }
+            return isSprintToggled || keyboardSprint;
+        }
+    }
 
     public Vector2 MoveInput
     {
         get
         {
-            Vector2 keyboardInput = inputActions.Player.Move.ReadValue<Vector2>();
+            Vector2 keyboardInput = Vector2.zero;
+            if (inputActions != null)
+            {
+                keyboardInput = inputActions.Player.Move.ReadValue<Vector2>();
+            }
 
             if (joystick != null && joystick.Direction.sqrMagnitude > 0.01f)
             {
@@ -50,6 +71,16 @@ public class GameInput : MonoBehaviour
         {
             btnJump.onClick.AddListener(() => OnJumpEvent?.Invoke());
         }
+
+        if (btnSprint != null)
+        {
+            btnSprint.onClick.AddListener(ToggleSprint);
+        }
+    }
+
+    private void ToggleSprint()
+    {
+        isSprintToggled = !isSprintToggled;
     }
 
     private void OnEnable()

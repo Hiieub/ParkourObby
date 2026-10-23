@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1a7962c3994d17b452f678f4755269, type: 3}
+  m_Name: Level_Normal_2
+  m_EditorClassIdentifier: Assembly-CSharp::LevelConfigSO
+  levelId: Normal_2
+  displayName: NORMAL 2
+  levelPrefab: {fileID: 8076317345291432091, guid: 89d6f25f4edadf34283dcd92f7ac7668, type: 3}
+  difficulty: 1
+  maxDeathsFor3Stars: 1
+  maxTimeFor3Stars: 100
+  maxDeathsFor2Stars: 3
+  maxTimeFor2Stars: 180

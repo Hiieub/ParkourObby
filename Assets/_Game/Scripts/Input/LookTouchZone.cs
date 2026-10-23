@@ -2,8 +2,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LookTouchZone : MonoBehaviour,
-    IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class LookTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [SerializeField] private CinemachineOrbitalFollow orbital;
     [SerializeField] private float sensitivity = 0.15f;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2644991042193281523}
   - component: {fileID: 2644991042193281522}
   - component: {fileID: 2644991042193281521}
+  - component: {fileID: 2644991042193281533}
   m_Layer: 0
   m_Name: FallPlat
   m_TagString: Untagged
@@ -112,3 +113,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2644991042193281533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2644991042193281520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1111111111111111111111111111102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform
+  shakeDuration: 0.6
+  respawnDelay: 2.5
+  shakeMagnitude: 0.08
