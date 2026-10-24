@@ -10,9 +10,9 @@ public class SettingsPopupUI : MonoBehaviour
     [SerializeField] private Button btnRetry;
     [SerializeField] private Button btnHome;
 
-    [Header("Audio Sliders")]
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
+    [Header("Audio Toggles")]
+    [SerializeField] private ToggleSwitch musicToggle;
+    [SerializeField] private ToggleSwitch sfxToggle;
 
     public void Initialize(Action onCloseOrResume, Action onRetry, Action onHome)
     {
@@ -40,23 +40,35 @@ public class SettingsPopupUI : MonoBehaviour
             btnHome.onClick.AddListener(() => onHome?.Invoke());
         }
 
-        SetupAudioSliders();
+        SetupAudioToggles();
     }
 
-    private void SetupAudioSliders()
+    private void SetupAudioToggles()
     {
-        if (musicSlider != null)
+        if (musicToggle != null)
         {
-            musicSlider.value = DataManager.MusicVolume;
-            musicSlider.onValueChanged.RemoveAllListeners();
-            musicSlider.onValueChanged.AddListener(OnMusicChanged);
+            musicToggle.SetState(DataManager.IsMusicOn, animate: true);
+            musicToggle.OnToggled += (isOn) =>
+            {
+                DataManager.IsMusicOn = isOn;
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.SetMusicVolume(DataManager.MusicVolume);
+                }
+            };
         }
 
-        if (sfxSlider != null)
+        if (sfxToggle != null)
         {
-            sfxSlider.value = DataManager.SFXVolume;
-            sfxSlider.onValueChanged.RemoveAllListeners();
-            sfxSlider.onValueChanged.AddListener(OnSfxChanged);
+            sfxToggle.SetState(DataManager.IsSfxOn, animate: false);
+            sfxToggle.OnToggled += (isOn) =>
+            {
+                DataManager.IsSfxOn = isOn;
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.SetSFXVolume(DataManager.SFXVolume);
+                }
+            };
         }
 
         if (AudioManager.Instance != null)
@@ -66,29 +78,11 @@ public class SettingsPopupUI : MonoBehaviour
         }
     }
 
-    private void OnMusicChanged(float val)
-    {
-        DataManager.MusicVolume = val;
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.SetMusicVolume(val);
-        }
-    }
-
-    private void OnSfxChanged(float val)
-    {
-        DataManager.SFXVolume = val;
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.SetSFXVolume(val);
-        }
-    }
-
     public void Show()
     {
         gameObject.SetActive(true);
-        if (musicSlider != null) musicSlider.value = DataManager.MusicVolume;
-        if (sfxSlider != null) sfxSlider.value = DataManager.SFXVolume;
+        if (musicToggle != null) musicToggle.SetState(DataManager.IsMusicOn, animate: true);
+        if (sfxToggle != null) sfxToggle.SetState(DataManager.IsSfxOn, animate: false);
     }
 
     public void Hide()

@@ -35,11 +35,10 @@ public class MainMenuController : MonoBehaviour
 
     [Header("Currency Display")]
     [SerializeField] private TMP_Text coinText;
-    [SerializeField] private int coinTest;
 
     [Header("Settings Controls")]
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private ToggleSwitch musicToggle;
+    [SerializeField] private ToggleSwitch sfxToggle;
 
     private bool isEasyTabActive = true;
 
@@ -78,9 +77,29 @@ public class MainMenuController : MonoBehaviour
         if (easyTabButton != null) easyTabButton.onClick.AddListener(() => SwitchTab(true));
         if (normalTabButton != null) normalTabButton.onClick.AddListener(() => SwitchTab(false));
 
-        // Settings Sliders
-        if (musicSlider != null) musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-        if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
+        // Settings
+        if (musicToggle != null)
+        {
+            musicToggle.OnToggled += (isOn) =>
+            {
+                DataManager.IsMusicOn = isOn;
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.SetMusicVolume(DataManager.MusicVolume);
+                }
+            };
+        }
+        if (sfxToggle != null)
+        {
+            sfxToggle.OnToggled += (isOn) =>
+            {
+                DataManager.IsSfxOn = isOn;
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.SetSFXVolume(DataManager.SFXVolume);
+                }
+            };
+        }
     }
 
     public void ShowMainMenu()
@@ -140,36 +159,19 @@ public class MainMenuController : MonoBehaviour
     {
         if (coinText != null)
         {
-            coinTest = DataManager.TotalCoins;
-            //coinText.text = DataManager.TotalCoins.ToString();
-            coinText.text = coinTest.ToString();
+            coinText.text = DataManager.TotalCoins.ToString();
         }
     }
 
     private void InitSettings()
     {
-        float musicVol = DataManager.MusicVolume;
-        float sfxVol = DataManager.SFXVolume;
-
-        if (musicSlider != null) musicSlider.value = musicVol;
-        if (sfxSlider != null) sfxSlider.value = sfxVol;
+        if (musicToggle != null) musicToggle.SetState(DataManager.IsMusicOn, animate: false);
+        if (sfxToggle != null) sfxToggle.SetState(DataManager.IsSfxOn, animate: false);
 
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.SetMusicVolume(musicVol);
-            AudioManager.Instance.SetSFXVolume(sfxVol);
+            AudioManager.Instance.SetMusicVolume(DataManager.MusicVolume);
+            AudioManager.Instance.SetSFXVolume(DataManager.SFXVolume);
         }
-    }
-
-    private void OnMusicVolumeChanged(float val)
-    {
-        DataManager.MusicVolume = val;
-        if (AudioManager.Instance != null) AudioManager.Instance.SetMusicVolume(val);
-    }
-
-    private void OnSfxVolumeChanged(float val)
-    {
-        DataManager.SFXVolume = val;
-        if (AudioManager.Instance != null) AudioManager.Instance.SetSFXVolume(val);
     }
 }

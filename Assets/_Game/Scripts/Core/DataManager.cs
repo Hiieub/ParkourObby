@@ -50,7 +50,7 @@ public static class DataManager
 
     public static int TotalCoins
     {
-        get => PlayerPrefs.GetInt(KEY_TOTAL_COINS, 0);
+        get => PlayerPrefs.GetInt(KEY_TOTAL_COINS, 2000);
         set
         {
             PlayerPrefs.SetInt(KEY_TOTAL_COINS, value);
@@ -120,6 +120,18 @@ public static class DataManager
             PlayerPrefs.SetFloat(KEY_SFX_VOLUME, Mathf.Clamp01(value));
             PlayerPrefs.Save();
         }
+    }
+
+    public static bool IsMusicOn
+    {
+        get => MusicVolume > 0.05f;
+        set => MusicVolume = value ? 0.5f : 0f;
+    }
+
+    public static bool IsSfxOn
+    {
+        get => SFXVolume > 0.05f;
+        set => SFXVolume = value ? 0.8f : 0f;
     }
     #endregion
 
