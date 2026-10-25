@@ -62,7 +62,7 @@ public class ShopManager : MonoBehaviour
         RefreshAllItems();
     }
 
-    private void RefreshAllItems()
+    public void RefreshAllItems()
     {
         foreach (var item in spawnedItems)
         {
@@ -70,7 +70,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void UpdateCoinUI()
+    public void UpdateCoinUI()
     {
         if (coinsTxt != null)
         {

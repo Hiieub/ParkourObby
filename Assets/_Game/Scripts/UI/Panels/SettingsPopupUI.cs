@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class SettingsPopupUI : MonoBehaviour
 {
+    private UIPopupAnimation popupAnim;
+
     [Header("Navigation Buttons")]
     [SerializeField] private Button btnClose;
     [SerializeField] private Button btnContinue;
@@ -13,6 +15,13 @@ public class SettingsPopupUI : MonoBehaviour
     [Header("Audio Toggles")]
     [SerializeField] private ToggleSwitch musicToggle;
     [SerializeField] private ToggleSwitch sfxToggle;
+
+    private void Awake()
+    {
+        popupAnim = GetComponent<UIPopupAnimation>();
+
+        if (btnClose != null) btnClose.onClick.AddListener(Hide);
+    }
 
     public void Initialize(Action onCloseOrResume, Action onRetry, Action onHome)
     {
@@ -43,6 +52,7 @@ public class SettingsPopupUI : MonoBehaviour
         SetupAudioToggles();
     }
 
+    public void SetupAudio() => SetupAudioToggles();
     private void SetupAudioToggles()
     {
         if (musicToggle != null)
@@ -80,13 +90,16 @@ public class SettingsPopupUI : MonoBehaviour
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        if (popupAnim != null) popupAnim.Open();
+        else gameObject.SetActive(true);
+
         if (musicToggle != null) musicToggle.SetState(DataManager.IsMusicOn, animate: true);
         if (sfxToggle != null) sfxToggle.SetState(DataManager.IsSfxOn, animate: false);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        if (popupAnim != null) popupAnim.Close();
+        else gameObject.SetActive(false);
     }
 }

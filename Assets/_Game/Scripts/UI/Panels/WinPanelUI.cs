@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class WinPanelUI : MonoBehaviour
 {
+    private UIPopupAnimation popupAnim;
+
     [Header("Texts")]
     [SerializeField] private TMP_Text winCoinText;
     [SerializeField] private TMP_Text winTimeText;
@@ -17,6 +19,11 @@ public class WinPanelUI : MonoBehaviour
     [SerializeField] private Button winNextLevelButton;
     [SerializeField] private Button winRestartButton;
     [SerializeField] private Button winHomeButton;
+
+    private void Awake()
+    {
+        popupAnim = GetComponent<UIPopupAnimation>();
+    }
 
     public void Initialize(Action onNextLevel, Action onRestart, Action onHome)
     {
@@ -41,7 +48,8 @@ public class WinPanelUI : MonoBehaviour
 
     public void Show(int coinsEarned, float levelTime, int starsEarned)
     {
-        gameObject.SetActive(true);
+        if (popupAnim != null) popupAnim.Open();
+        else gameObject.SetActive(true);
 
         if (winCoinText != null)
         {
@@ -84,6 +92,7 @@ public class WinPanelUI : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        if (popupAnim != null) popupAnim.Close();
+        else gameObject.SetActive(false);
     }
 }
