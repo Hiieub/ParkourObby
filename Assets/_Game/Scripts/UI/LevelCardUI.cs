@@ -8,6 +8,7 @@ public class LevelCardUI : MonoBehaviour
     private LevelSelectManager levelSelectManager;
 
     [SerializeField] private TMP_Text levelNameTxt;
+    [SerializeField] private Image thumbnailImage;
     [SerializeField] private Image[] starImages;
     [SerializeField] private Sprite starFilled;
     [SerializeField] private Sprite starEmpty;
@@ -21,6 +22,9 @@ public class LevelCardUI : MonoBehaviour
 
         if (levelNameTxt != null)
             levelNameTxt.text = config.DisplayName;
+
+        if (thumbnailImage != null && config.Thumbnail != null)
+            thumbnailImage.sprite = config.Thumbnail;
         
         playButton.onClick.RemoveListener(OnPlayClicked);
         playButton.onClick.AddListener(OnPlayClicked);

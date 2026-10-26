@@ -9,6 +9,7 @@ public class LevelConfigSO : ScriptableObject
     [SerializeField] private string levelId = "Easy_1";
     [SerializeField] private string displayName = "EASY 1";
     [SerializeField] private GameObject levelPrefab;
+    [SerializeField] private Sprite thumbnail;
 
     [SerializeField] private LevelDifficulty difficulty = LevelDifficulty.Easy;
 
@@ -21,14 +22,16 @@ public class LevelConfigSO : ScriptableObject
     public string LevelId => levelId;
     public string DisplayName => string.IsNullOrEmpty(displayName) ? levelId.Replace("_", " ").ToUpper() : displayName;
     public GameObject LevelPrefab => levelPrefab;
+    public Sprite Thumbnail => thumbnail;
 
     public LevelDifficulty Difficulty => difficulty;
 
-    public void Initialize(string id, string name, GameObject prefab)
+    public void Initialize(string id, string name, GameObject prefab, Sprite thumb = null)
     {
         levelId = id;
         displayName = name;
         levelPrefab = prefab;
+        thumbnail = thumb;
     }
 
     public int CalculateStars(int deaths, float clearTime)

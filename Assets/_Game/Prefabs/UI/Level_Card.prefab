@@ -626,6 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelCardUI
   levelNameTxt: {fileID: 161544096749316028}
+  thumbnailImage: {fileID: 2383994289139137900}
   starImages:
   - {fileID: 8526165948043292914}
   - {fileID: 6997522135621502874}
