@@ -77,6 +77,10 @@ public class Checkpoint : MonoBehaviour
 
         if (activateFx != null)
         {
+            if (flagRenderer != null)
+            {
+                activateFx.transform.position = flagRenderer.bounds.center + Vector3.up * flagRenderer.bounds.extents.y;
+            }
             activateFx.Play();
         }
 
@@ -84,5 +88,19 @@ public class Checkpoint : MonoBehaviour
         {
             flagRenderer.material.color = activeColor;
         }
+    }
+
+    public Vector3 GetRespawnPosition()
+    {
+        if (flagRenderer != null)
+        {
+            return new Vector3(
+                flagRenderer.bounds.center.x,
+                flagRenderer.bounds.max.y + 0.15f,
+                flagRenderer.bounds.center.z
+            );
+        }
+
+        return transform.position + Vector3.up;
     }
 }

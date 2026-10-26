@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
             OnProgressUpdated?.Invoke(ProgressRatio, CurrentStage, TotalStages);
         }
 
-        SetCheckpoint(cp.transform.position + Vector3.up);
+        SetCheckpoint(cp.GetRespawnPosition());
 
         if (flagpoleNumber >= TotalStages || (finishCheckpoint != null && cp == finishCheckpoint))
         {
