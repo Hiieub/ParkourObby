@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -194,6 +194,19 @@ public class Player : MonoBehaviour
         jumpCount = 0;
         coyoteTimeCounter = 0f;
         jumpBufferCounter = 0f;
+    }
+
+    // Tác dụng lực đè xuống vật thể khi Player đứng lên cầu bấp bênh
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
+        if (rb == null || rb.isKinematic) return;
+
+        if (hit.moveDirection.y < -0.3f)
+        {
+            Vector3 pushForce = Vector3.down * 120f;
+            rb.AddForceAtPosition(pushForce, hit.point, ForceMode.Force);
+        }
     }
 
     public void Respawn()
