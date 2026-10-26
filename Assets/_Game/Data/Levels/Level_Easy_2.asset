@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfigSO
   levelId: Easy_2
   displayName: EASY 2
-  levelPrefab: {fileID: 8076317345291432091, guid: 89d6f25f4edadf34283dcd92f7ac7668, type: 3}
-  baseRewardCoins: 25
-  parTime: 75
+  levelPrefab: {fileID: 8076317345291432091, guid: 464467672dd70c44ab82b2dc608cefe2, type: 3}
+  difficulty: 0
   maxDeathsFor3Stars: 2
   maxTimeFor3Stars: 75
   maxDeathsFor2Stars: 5

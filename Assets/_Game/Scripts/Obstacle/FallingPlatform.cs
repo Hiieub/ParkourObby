@@ -4,8 +4,8 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
     [Header("Timers")]
-    [SerializeField] private float shakeDuration = 0.6f;
-    [SerializeField] private float respawnDelay = 2.5f;
+    [SerializeField] private float shakeDuration = 1.2f;
+    [SerializeField] private float respawnDelay = 1.5f;
 
     [Header("Visual Feedback")]
     [SerializeField] private float shakeMagnitude = 0.08f;

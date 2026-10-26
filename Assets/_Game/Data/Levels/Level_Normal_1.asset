@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfigSO
   levelId: Normal_1
   displayName: NORMAL 1
-  levelPrefab: {fileID: 8076317345291432091, guid: dd6bf97aeb6c94647858b2a875d2f7df, type: 3}
+  levelPrefab: {fileID: 8076317345291432091, guid: 9b4511248277fcf4db043fdab1d34236, type: 3}
   difficulty: 1
   maxDeathsFor3Stars: 1
   maxTimeFor3Stars: 90

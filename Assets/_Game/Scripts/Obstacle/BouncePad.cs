@@ -5,7 +5,6 @@ public class BouncePad : MonoBehaviour
 {
     [Header("Bounce Settings")]
     [SerializeField] private float bounceForce = 13f;
-    [SerializeField] private ParticleSystem bounceFx;
     [SerializeField] private float squashAmount = 0.25f;
 
     private Vector3 initialScale;
@@ -35,9 +34,9 @@ public class BouncePad : MonoBehaviour
     {
         player.ApplyBounce(bounceForce);
 
-        if (bounceFx != null)
+        if (AudioManager.Instance != null)
         {
-            bounceFx.Play();
+            AudioManager.Instance.PlayBounce();
         }
 
         StopAllCoroutines();
