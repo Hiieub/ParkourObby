@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
@@ -70,7 +71,7 @@ public class WinPanelUI : MonoBehaviour
             {
                 int bm = Mathf.FloorToInt(bestTime / 60f);
                 int bs = Mathf.FloorToInt(bestTime % 60f);
-                winBestTimeText.text = $"BEST: {bm:00}:{bs:00}";
+                winBestTimeText.text = $"{bm:00}:{bs:00}";
             }
             else
             {
@@ -82,9 +83,21 @@ public class WinPanelUI : MonoBehaviour
         {
             for (int i = 0; i < winStars.Length; i++)
             {
-                if (winStars[i] != null)
+                if (winStars[i] == null) continue;
+
+                winStars[i].transform.DOKill();
+
+                bool earned = i < starsEarned;
+                winStars[i].SetActive(earned);
+
+                if (earned)
                 {
-                    winStars[i].SetActive(i < starsEarned);
+                    winStars[i].transform.localScale = Vector3.zero;
+
+                    winStars[i].transform.DOScale(1f, 0.35f).SetEase(Ease.OutBack).SetDelay(0.2f + i * 0.15f)
+                        .SetUpdate(true)
+                        .SetLink(winStars[i], LinkBehaviour.KillOnDisable)
+                        .OnStart(() => AudioManager.Instance?.PlayCoin());
                 }
             }
         }
